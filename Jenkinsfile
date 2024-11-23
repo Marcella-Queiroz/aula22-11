@@ -2,6 +2,16 @@ pipeline {
     agent any
 
     stages {
+      stage('Apagar containers'{
+        steps{
+                script{
+                sh '''
+                docker stop $(docker ps -aq) && docker rm $(docker ps -aq)
+                '''
+                }
+        }
+})
+
         stage('Cleanup') {
             steps {
                 script {
@@ -24,8 +34,7 @@ pipeline {
                 }
             }
         }
-    }
-
+ 
     post {
         success {
             echo 'Pipeline executado com sucesso! Todos os serviços estão no ar.'
